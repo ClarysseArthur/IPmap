@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IP Tracker</title>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIY4E-uMJmTTsfaVNTtfp6awIirNArQXU&callback=initMap&libraries=&v=weekly"
+        defer></script>
+    <script src="{{ url_for('static', filename='map.js') }}"></script>
+    <script src="{{ url_for('static', filename='ip.js') }}"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="icon" href="{{ url_for('static', filename='icon2.png') }}">
+</head>
+
+<body>
+    <div id="map">
+
+    </div>
+
+    <div class="overlay">
+        <h1>ip address</h1>
+        <input type="text" class="ipInput">
+        <input type="submit" class="ipSubmit">
+    </div>
+
+    <div class="hops">
+        <h1>hops</h1>
+        <table class="hopTable">
+            <tr class="hopTrTitle">
+                <td class="hopTr1">
+                    IP address
+                </td>
+                <td class="hopTr2">
+                    Latitude
+                </td>
+                <td class="hopTr3">
+                    Longitude
+                </td>
+            </tr>
+            {% for x in range(iplijst|length) %}
+            <tr class="hopTrData">
+                <td class="hopTr1">
+                    {{ iplijst[x][0] }}
+                </td>
+                <td class="hopTr2">
+                    {{ iplijst[x][1] }}
+                </td>
+                <td class="hopTr3">
+                    {{ iplijst[x][2] }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <h6 class="copyright">© Arthur Clarysse 2021</h6>
+
+    <script>
+        var x = {{ iplijst| safe}};
+        lijst = [];
+
+        makeList(x);
+
+        function makeList(data) {
+            console.log('start');
+            for (i = 0; i < data.length; i++) {
+                lijst.push({ lat: data[i][1], lng: data[i][2] });
+                console.log(lijst);
+            }
+        }
+
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 5,
+                center: { lat: 50.3828, lng: 4.405 },
+                mapTypeId: "roadmap",
+            });
+            const flightPlanCoordinates = lijst;
+
+            const flightPath = new google.maps.Polyline({
+                path: flightPlanCoordinates,
+                geodesic: true,
+                strokeColor: "#0000FF",
+                strokeOpacity: 0.5,
+                strokeWeight: 10,
+            });
+            flightPath.setMap(map);
+        }
+    </script>
+</body>
+
+</html>
