@@ -1,6 +1,6 @@
 # IPmap
 ### !Windows only!
-IPmap is a visualization of the Windows CLI command: tracert 0.0.0.0.
+IPmap is a visualization of the Windows CLI (DOS) command: tracert 0.0.0.0.
 
 ## Installation
 Clone this repository from [Github](https://github.com/ClarysseArthur/IPmap.git).
