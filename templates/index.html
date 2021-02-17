@@ -9,161 +9,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap">
-    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> -->
-    <style>
-        /* ROOT */
-
-        :root {
-            --background: #1d1d1d;
-            --light: #38a4a5;
-            --dark: #134558;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Quicksand', sans-serif;
-        }
-
-        /* GOOGLE */
-
-        #map {
-            height: 100%;
-        }
-
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* OVERLAY */
-
-        .overlay {
-            width: 340px;
-            height: 200px;
-            background-color: var(--background);
-            position: absolute;
-            left: 50px;
-            top: 50px;
-            border-radius: 10px;
-            border: 3px solid var(--light);
-            text-align: center;
-            transition: ease-in 0.3s;
-            opacity: 0.5;
-        }
-
-        .overlay:hover {
-            opacity: 1;
-        }
-
-        h1 {
-            margin: 0;
-            padding: 0;
-            margin-top: 15px;
-            color: var(--light);
-            font-variant: small-caps;
-            font-size: 40px;
-        }
-
-        .ipInput {
-            background-color: transparent;
-            border: 1px solid var(--light);
-            width: 240px;
-            margin-top: 15px;
-            color: white;
-            text-align: center;
-            height: 25px;
-            font-size: 15px;
-        }
-
-        .ipSubmit {
-            background-color: transparent;
-            border: 1px solid var(--light);
-            width: 100px;
-            margin-top: 15px;
-            color: white;
-            text-align: center;
-            font-size: 25px;
-            margin-bottom: 25px;
-            transition: ease-in 0.3s;
-        }
-
-        .ipSubmit:hover {
-            background-color: var(--light);
-        }
-
-        /* HOPS */
-
-        .hops {
-            width: 340px;
-            height: auto;
-            background-color: var(--background);
-            position: absolute;
-            left: 50px;
-            top: 300px;
-            border-radius: 10px;
-            border: 3px solid var(--light);
-            text-align: center;
-            transition: ease-in 0.3s;
-            opacity: 0.5;
-        }
-
-        .hops:hover {
-            opacity: 1;
-        }
-
-        .hopTable {
-            width: 90%;
-            margin-left: 5%;
-            text-align: center;
-            color: white;
-            border-collapse: collapse;
-            margin-bottom: 25px;
-            margin-top: 15px;
-        }
-
-        .hopTr2,
-        .hopTr3 {
-            width: 20%;
-        }
-
-        .hopTr1 {
-            width: 40%;
-        }
-
-        .hopTr2 {
-            border-right: 1px solid var(--light);
-            border-left: 1px solid var(--light);
-        }
-
-        .hopTrTitle {
-            height: 35px;
-        }
-
-        .hopTrData {
-            font-weight: 100;
-        }
-
-        /* COPYRIGHT */
-
-        .copyright {
-            position: absolute;
-            left: 80px;
-            bottom: 5px;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 
     <link rel="icon" href="{{ url_for('static', filename='icon2.png') }}">
 </head>
 
 <body>
-    <!-- <div class="wait">
-        <img src="#" class="load">
-    </div> -->
+    <div class="wait">
+        <img src="{{ url_for('static', filename='load.gif') }}" class="load">
+    </div>
 
     <div id="map">
 
@@ -216,11 +70,8 @@
 
     <script>
         var addresses = {{ iplijst| safe}};
-
         console.log(addresses);
-
         lijst = [];
-
         makeList(addresses);
 
         function makeList(data) {
@@ -229,6 +80,7 @@
                 lijst.push({ lat: data[i][1], lng: data[i][2] });
                 console.log(lijst);
             }
+
         }
 
         function initMap() {
@@ -242,12 +94,22 @@
             const flightPath = new google.maps.Polyline({
                 path: flightPlanCoordinates,
                 geodesic: true,
-                strokeColor: "#0000FF",
+                strokeColor: "#ff0000",
                 strokeOpacity: 0.5,
                 strokeWeight: 10,
             });
             flightPath.setMap(map);
         }
+
+        const overlay = function(){
+            const div = document.querySelector('.wait');
+            div.style.display = 'block';
+        }
+
+        const btnSubmit = document.querySelector('.ipSubmit');
+        btnSubmit.addEventListener("click", overlay);
+
+
 
     </script>
 </body>
